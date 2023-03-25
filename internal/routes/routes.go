@@ -1,9 +1,10 @@
 package routes
 
 import (
-	"github.com/Slimo300/MicroservicesChatApp/backend/lib/auth"
-	"github.com/Slimo300/MicroservicesChatApp/backend/ws-service/handlers"
+	"github.com/Slimo300/chat-wsservice/internal/handlers"
 	"github.com/gin-gonic/gin"
+
+	tokens "github.com/Slimo300/chat-tokenservice/pkg/client"
 )
 
 func Setup(server *handlers.Server, origin string) *gin.Engine {
@@ -12,7 +13,7 @@ func Setup(server *handlers.Server, origin string) *gin.Engine {
 	engine.Use(CORSMiddleware(origin))
 
 	api := engine.Group("/ws")
-	api.Use(auth.MustAuth(server.TokenService))
+	api.Use(tokens.MustAuth(server.TokenClient))
 	api.GET("/accessCode", server.GetAuthCode)
 
 	engine.GET("/ws", server.ServeWebSocket)

@@ -3,23 +3,23 @@ package handlers
 import (
 	"log"
 
-	"github.com/Slimo300/MicroservicesChatApp/backend/lib/auth"
 	"github.com/Slimo300/MicroservicesChatApp/backend/lib/events"
 	"github.com/Slimo300/MicroservicesChatApp/backend/lib/msgqueue"
-	"github.com/Slimo300/MicroservicesChatApp/backend/ws-service/cache"
-	"github.com/Slimo300/MicroservicesChatApp/backend/ws-service/database"
-	"github.com/Slimo300/MicroservicesChatApp/backend/ws-service/ws"
+	tokens "github.com/Slimo300/chat-tokenservice/pkg/client"
+	"github.com/Slimo300/chat-wsservice/internal/cache"
+	"github.com/Slimo300/chat-wsservice/internal/database"
+	"github.com/Slimo300/chat-wsservice/internal/ws"
 )
 
 type Server struct {
-	DB           database.DBLayer
-	Hub          *ws.WSHub
-	TokenService auth.TokenClient
-	CodeCache    cache.AccessCodeCache
-	Emitter      msgqueue.EventEmiter
-	Listener     msgqueue.EventListener
-	MessageChan  <-chan *ws.Message
-	EventChan    chan<- msgqueue.Event
+	DB          database.DBLayer
+	Hub         *ws.WSHub
+	TokenClient tokens.TokenClient
+	CodeCache   cache.AccessCodeCache
+	Emitter     msgqueue.EventEmiter
+	Listener    msgqueue.EventListener
+	MessageChan <-chan *ws.Message
+	EventChan   chan<- msgqueue.Event
 }
 
 func (s *Server) RunHub() {

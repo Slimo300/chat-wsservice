@@ -11,12 +11,6 @@ func (h *WSHub) groupDeleted(event events.GroupDeletedEvent) {
 			delete(client.groups, event.ID)
 			client.send <- &Action{ActionType: "DELETE_GROUP", Payload: event.ID}
 		}
-		// for i, group := range client.groups {
-		// 	if group == event.ID {
-		// 		client.groups = append(client.groups[:i], client.groups[:i+1]...)
-		// 		client.send <- &Action{ActionType: "DELETE_GROUP", Payload: event.ID}
-		// 	}
-		// }
 	}
 }
 
@@ -31,13 +25,6 @@ func (h *WSHub) memberAdded(event events.MemberCreatedEvent) {
 		if _, ok := client.groups[event.GroupID]; ok {
 			client.send <- &Action{ActionType: "ADD_MEMBER", Payload: event}
 		}
-		// if !event.Creator {
-		// for _, group := range client.groups {
-		// 	if event.GroupID == group {
-		// 		client.send <- &Action{ActionType: "ADD_MEMBER", Payload: event}
-		// 	}
-		// }
-		// }
 	}
 }
 
@@ -52,18 +39,6 @@ func (h *WSHub) memberDeleted(event events.MemberDeletedEvent) {
 				client.send <- &Action{ActionType: "DELETE_MEMBER", Payload: event}
 			}
 		}
-		// for i, group := range client.groups {
-		// 	// if user is a member of group
-		// 	if group == event.GroupID {
-		// 		// if user is the one to be deleted
-		// 		if client.id == event.UserID {
-		// 			client.groups = append(client.groups[:i], client.groups[:i+1]...)
-		// 			client.send <- &Action{ActionType: "DELETE_GROUP", Payload: event.GroupID}
-		// 		} else {
-		// 			client.send <- &Action{ActionType: "DELETE_MEMBER", Payload: event}
-		// 		}
-		// 	}
-		// }
 	}
 }
 
@@ -72,11 +47,6 @@ func (h *WSHub) memberUpdated(event events.MemberUpdatedEvent) {
 		if _, ok := client.groups[event.GroupID]; ok {
 			client.send <- &Action{ActionType: "UPDATE_MEMBER", Payload: event}
 		}
-		// for _, group := range client.groups {
-		// 	if group == event.GroupID {
-		// 		client.send <- &Action{ActionType: "UPDATE_MEMBER", Payload: event}
-		// 	}
-		// }
 	}
 }
 
@@ -102,10 +72,5 @@ func (h *WSHub) messageDeleted(event events.MessageDeletedEvent) {
 		if _, ok := client.groups[event.GroupID]; ok {
 			client.send <- &Action{ActionType: "DELETE_MESSAGE", Payload: event}
 		}
-		// for _, group := range client.groups {
-		// 	if group == event.GroupID {
-		// 		client.send <- &Action{ActionType: "DELETE_MESSAGE", Payload: event}
-		// 	}
-		// }
 	}
 }
