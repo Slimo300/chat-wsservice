@@ -56,7 +56,7 @@ func (c *AccessCodeCache) cleanupLoop(interval time.Duration) {
 	}
 }
 
-func (c *AccessCodeCache) stopCleanup() {
+func (c *AccessCodeCache) Stop() {
 	close(c.stop)
 }
 

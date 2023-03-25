@@ -32,10 +32,7 @@ func NewHub(messageChan chan<- *Message, actionChan <-chan msgqueue.Event, origi
 		ReadBufferSize:  socketBufferSize,
 		WriteBufferSize: socketBufferSize,
 		CheckOrigin: func(r *http.Request) bool {
-			if r.Header.Get("Origin") == origin {
-				return true
-			}
-			return false
+			return r.Header.Get("Origin") == origin
 		}}
 
 	return &WSHub{

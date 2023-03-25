@@ -23,7 +23,9 @@ func Setup(address string) (*Database, error) {
 		return nil, err
 	}
 
-	db.AutoMigrate(&models.Membership{})
+	if err := db.AutoMigrate(&models.Membership{}); err != nil {
+		return nil, err
+	}
 
 	return &Database{DB: db}, nil
 }
